@@ -1,20 +1,28 @@
-export const VisibilityControl = ({ isCompleted, setShowCompleted, cleanTasks }) => {
+export const VisibilityControl = ({
+  isCompleted,
+  setShowCompleted,
+  cleanTasks,
+}) => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete it?")) {
       cleanTasks();
-      
     }
-    setShowCompleted(!isCompleted)
+    setShowCompleted(!isCompleted);
   };
   return (
-    <div>
+    <div className="d-flex justify-content-between bg-secondary text-white text-center p-2 border-secondary">
+        <div className="form-check form-switch">
       <input
+        className="form-check-input"
+        role="switch"
         type="checkbox"
         checked={isCompleted}
         onChange={(e) => setShowCompleted(e.target.checked)}
       />{" "}
-      <label>Show Tasks Done</label>
-      <button onClick={handleDelete}>Clear</button>
+        <label className="form-check-label">Show Tasks Done</label>
+
+        </div>
+      <button onClick={handleDelete} className="btn btn-danger btn-sm">Clear</button>
     </div>
   );
 };

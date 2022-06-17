@@ -3,6 +3,7 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import { TaskTable } from "./components/TaskTable";
 import { VisibilityControl } from "./components/VisibilityControl";
+import { Container } from "./components/Container";
 
 function App() {
   const [tasksItems, setTasksItems] = useState([]);
@@ -28,7 +29,7 @@ function App() {
 
   const cleanTasks = () => {
     setTasksItems(tasksItems.filter((task) => !task.done));
-    setShowCompleted(!showCompleted)
+    setShowCompleted(!showCompleted);
   };
 
   const toggleTask = (taskName) => {
@@ -39,23 +40,25 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <TaskCreator createNewTask={createNewTask} />
-      <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
-      <VisibilityControl
-        isCompleted={showCompleted}
-        showCompleted={showCompleted}
-        cleanTasks={cleanTasks}
-        setShowCompleted={(checked) => setShowCompleted(checked)}
-      />
-      {showCompleted && (
-        <TaskTable
-          tasks={tasksItems}
-          toggleTask={toggleTask}
+    <main className="bg-dark vh-100 text-white">
+      <Container>
+        <TaskCreator createNewTask={createNewTask} />
+        <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
+        <VisibilityControl
+          isCompleted={showCompleted}
           showCompleted={showCompleted}
+          cleanTasks={cleanTasks}
+          setShowCompleted={(checked) => setShowCompleted(checked)}
         />
-      )}
-    </div>
+        {showCompleted && (
+          <TaskTable
+            tasks={tasksItems}
+            toggleTask={toggleTask}
+            showCompleted={showCompleted}
+          />
+        )}
+      </Container>
+    </main>
   );
 }
 
