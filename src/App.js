@@ -5,6 +5,7 @@ import { TaskTable } from "./components/TaskTable";
 
 function App() {
   const [tasksItems, setTasksItems] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   useEffect(() => {
     let data = localStorage.getItem("tasks");
@@ -28,13 +29,30 @@ function App() {
     const updateTasksItems = tasksItems.map((task) =>
       task.name === taskName ? { ...task, done: !task.done } : task
     );
-    setTasksItems(updateTasksItems)
+    setTasksItems(updateTasksItems);
   };
 
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
-      <TaskTable tasks={tasksItems} toggleTask={toggleTask}/>
+      <TaskTable
+        tasks={tasksItems}
+        toggleTask={toggleTask}
+      />
+      <div>
+        <input
+          type="checkbox"
+          onChange={() => setShowCompleted(!showCompleted)}
+        />{" "}
+        <label>Show Tasks Done</label>
+      </div>
+      {showCompleted && (
+        <TaskTable
+          tasks={tasksItems}
+          toggleTask={toggleTask}
+          showCompleted={showCompleted}
+        />
+      )}
     </div>
   );
 }
