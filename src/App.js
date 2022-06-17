@@ -1,6 +1,7 @@
 import { TaskCreator } from "./components/TaskCreator";
 import "./App.css";
 import { useState, useEffect } from "react";
+import { TaskTable } from "./components/TaskTable";
 
 function App() {
   const [tasksItems, setTasksItems] = useState([]);
@@ -16,32 +17,24 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasksItems));
   }, [tasksItems]);
 
-  const createNewTask = (taskname) => {
-    const isExistTask = tasksItems.find((task) => task.name === taskname);
+  const createNewTask = (taskName) => {
+    const isExistTask = tasksItems.find((task) => task.name === taskName);
     if (!isExistTask) {
-      setTasksItems([...tasksItems, { name: taskname, done: false }]);
+      setTasksItems([...tasksItems, { name: taskName, done: false }]);
     }
+  };
+
+  const toggleTask = (taskName) => {
+    const updateTasksItems = tasksItems.map((task) =>
+      task.name === taskName ? { ...task, done: !task.done } : task
+    );
+    setTasksItems(updateTasksItems)
   };
 
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
-      <table>
-        <thead>
-          <tr>
-            <th>Tasks</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasksItems.map((task, index) => {
-            return (
-              <tr key={index}>
-                <td>{task.name}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <TaskTable tasks={tasksItems} toggleTask={toggleTask}/>
     </div>
   );
 }
